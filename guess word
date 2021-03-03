@@ -1,0 +1,59 @@
+
+import random
+def word_random():
+    with open('SOWPODS.txt','r') as stock:
+        file = stock.readlines()
+        # print(file)
+        word = random.choice(file)
+        print(word)
+        return word
+
+def guess_match(guess, display, word):
+        while word != display:
+            if guess in display:
+                print("already exists, try another letter")
+
+                guess_word(display)
+
+            if guess in word:
+                ind = []
+                for i in range(len(word)):
+                    if word[i] == guess:
+                        ind.append(i)
+                word_list = list(word)
+                display_list = list(display)
+                for j in ind:
+                    display_list[j] = word_list[j]
+                    display = "".join(display_list)
+                print(display)
+                if display == word[0:-1]:
+                    print("you won, game ends")
+                    user_resp = input("Do you want to play again?? press y else n ")
+                    if user_resp == "y":
+                        play_game()
+                    else:
+                        exit()
+                else:
+                    guess_match(guess_word(display,word),display,word)
+
+            else:
+                print("Try again")
+                print(display)
+                guess_match(guess_word(display,word),display,word)
+
+
+def guess_word(display,word):
+    guess = input("guess a letter: ").upper()
+    return guess_match(guess, display,word)
+
+
+def play_game():
+    word = word_random()
+    print(len(word))
+    display = "-"*(len(word)-1)
+    print(display)
+    return guess_word(display,word)
+
+play_game()
+
+
